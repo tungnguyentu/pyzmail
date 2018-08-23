@@ -492,6 +492,7 @@ def send_mail(payload, mail_from, rcpt_to, smtp_host, smtp_port=25, smtp_mode='n
     except smtplib.SMTPRecipientsRefused, e:
         # code, error=e.recipients[recipient_addr]
         error='all recipients refused: '+', '.join(e.recipients.keys())
+        error = error + ', reason: %r' % e.smtp_error
     except smtplib.SMTPSenderRefused, e:
         # e.sender, e.smtp_code, e.smtp_error
         error='sender refused: %s - reason: %r' % (e.sender, e.smtp_error)
