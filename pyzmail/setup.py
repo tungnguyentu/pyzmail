@@ -111,7 +111,6 @@ if sys.version_info >= (3,):
     extra_options['use_2to3'] = True
     # extra_options['convert_2to3_doctests'] = ['src/your/module']
     # extra_options['use_2to3_fixers'] = ['your.fixers' ]
-    extra_options['install_requires']=['distribute'], # be sure we are using distribute      
        
 setup(name='pyzmail',
       version=version, 
