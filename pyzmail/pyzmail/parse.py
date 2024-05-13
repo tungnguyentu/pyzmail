@@ -605,7 +605,7 @@ class PyzMessage(email.message.Message):
                 else:
                     return email.message_from_binary_file(input)
             else:
-                raise ValueError, 'input must be a string a bytes, a file or a Message'
+                raise ValueError('input must be a string a bytes, a file or a Message')  # Fix: Change ValueError to a valid exception class or object
 
     @staticmethod
     def factory(input):
@@ -628,7 +628,7 @@ class PyzMessage(email.message.Message):
         @param message: The message
         """
         if not isinstance(message, email.message.Message):
-            raise ValueError, "message must inherit from email.message.Message use PyzMessage.factory() instead"
+            raise ValueError("message must inherit from email.message.Message use PyzMessage.factory() instead")
         self.__dict__.update(message.__dict__)
 
         self.mailparts=get_mail_parts(self)
@@ -789,23 +789,23 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv)<=1:
-        print 'usage : %s filename' % sys.argv[0]
-        print 'read an email from file and display a resume of its content'
+        print('usage : %s filename' % sys.argv[0])
+        print('read an email from file and display a resume of its content')
         sys.exit(1)
 
     msg=PyzMessage.factory(open(sys.argv[1], 'rb'))
 
-    print 'Subject: %r' % (msg.get_subject(), )
-    print 'From: %r' % (msg.get_address('from'), )
-    print 'To: %r' % (msg.get_addresses('to'), )
-    print 'Cc: %r' % (msg.get_addresses('cc'), )
-    print 'Date: %r' % (msg.get_decoded_header('date', ''), )
-    print 'Message-Id: %r' % (msg.get_decoded_header('message-id', ''), )
+    print('Subject: %r' % (msg.get_subject(), ))
+    print('From: %r' % (msg.get_address('from'), ))
+    print('To: %r' % (msg.get_addresses('to'), ))
+    print('Cc: %r' % (msg.get_addresses('cc'), ))
+    print('Date: %r' % (msg.get_decoded_header('date', ''), ))
+    print('Message-Id: %r' % (msg.get_decoded_header('message-id', ''), ))
 
     for mailpart in msg.mailparts:
         # dont forget to be careful to sanitize 'filename' and be carefull
         # for filename collision, to before to save :
-        print '   %sfilename=%r type=%s charset=%s desc=%s size=%d' % ('*'if mailpart.is_body else ' ', mailpart.filename, mailpart.type, mailpart.charset, mailpart.part.get('Content-Description'), 0 if mailpart.get_payload()==None else len(mailpart.get_payload()))
+        print('   %sfilename=%r type=%s charset=%s desc=%s size=%d' % ('*'if mailpart.is_body else ' ', mailpart.filename, mailpart.type, mailpart.charset, mailpart.part.get('Content-Description'), 0 if mailpart.get_payload()==None else len(mailpart.get_payload())))
 
         if mailpart.is_body=='text/plain':
             # print first 3 lines
@@ -813,7 +813,7 @@ if __name__ == "__main__":
             for line in payload.split('\n')[:3]:
                 # be careful console can be unable to display unicode characters
                 if line:
-                    print '       >', line
+                    print('       >', line)
 
 
 

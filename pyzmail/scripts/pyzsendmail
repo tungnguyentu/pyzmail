@@ -291,14 +291,14 @@ ret=pyzmail.send_mail(payload, mail_from, rcpt_to, options.smtp_host, smtp_port=
 
 if isinstance(ret, dict):
     if ret:
-        print 'failed recipients:'
-        for recipient, (code, msg) in ret.iteritems():
-            print '%d %s\t%s' % (code, recipient, msg)
+        print('failed recipients:')
+        for recipient, (code, msg) in ret.items():
+            print('%d %s\t%s' % (code, recipient, msg))
         sys.exit(1)
     else:
         sys.exit(0)
 else:
-    print 'error:'
-    print ret
+    print('error:')
+    print(ret)
     sys.exit(2)
 

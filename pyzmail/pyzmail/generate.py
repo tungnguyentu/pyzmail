@@ -408,8 +408,8 @@ def send_mail2(payload, mail_from, rcpt_to, smtp_host, smtp_port=25, smtp_mode='
     finally:
         try:
             smtp.quit()
-        except Exception, e:
-            pass
+        except Exception as e:
+            print('Error while closing the connection to the SMTP server: %s' % (e, ))
 
     return ret
 
@@ -485,22 +485,21 @@ def send_mail(payload, mail_from, rcpt_to, smtp_host, smtp_port=25, smtp_mode='n
     error=dict()
     try:
         ret=send_mail2(payload, mail_from, rcpt_to, smtp_host, smtp_port, smtp_mode, smtp_login, smtp_password)
-    except (socket.error, ), e:
+    except (socket.error) as e:
         error='server %s:%s not responding: %s' % (smtp_host, smtp_port, e)
-    except smtplib.SMTPAuthenticationError, e:
+    except smtplib.SMTPAuthenticationError as e:
         error='authentication error: %s' % (e, )
-    except smtplib.SMTPRecipientsRefused, e:
+    except smtplib.SMTPRecipientsRefused as e:
         # code, error=e.recipients[recipient_addr]
         error='all recipients refused: '+', '.join(e.recipients.keys())
-        error = error + ', reason: %r' % e.smtp_error
-    except smtplib.SMTPSenderRefused, e:
+    except smtplib.SMTPSenderRefused as e:
         # e.sender, e.smtp_code, e.smtp_error
         error='sender refused: %s - reason: %r' % (e.sender, e.smtp_error)
-    except smtplib.SMTPDataError, e:
+    except smtplib.SMTPDataError as e:
         error='SMTP protocol mismatch: %s' % (e, )
-    except smtplib.SMTPHeloError, e:
+    except smtplib.SMTPHeloError as e:
         error="server didn't reply properly to the HELO greeting: %s" % (e, )
-    except smtplib.SMTPException, e:
+    except smtplib.SMTPException as e:
         error='SMTP error: %s' % (e, )
 #    except Exception, e:
 #        raise # unknown error
